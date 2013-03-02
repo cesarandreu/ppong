@@ -1,13 +1,13 @@
 <html>
-  <head>
+	<head>
 
-		<title>onkeypress test</title>
+		<title>PlayerPong</title>
 			<script src="/socket.io/socket.io.js"></script>
 
 			<script>			
 
 
-			var socket = io.connect('http://localhost');
+			var socket = io.connect('http//:localhost');
 			
 			document.onkeydown = keypress;
 
@@ -27,12 +27,12 @@
  				}
 
  				if(keyCode == 40){
- 					alert("KeyUp");
+ 					alert("KeyDown");
  					socket.emit('movementDown', {data: true}, function(position)
  						{
  							document.write(position);
  						});
- 				
+
  				
  				}
 
