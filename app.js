@@ -7,8 +7,11 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
   , app = express()
+  , gameLoop = require('gameLogic')
   , server = require('http').createServer(app)
   , io = require('socket.io').listen(server);
+
+var ball = 100;
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
