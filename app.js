@@ -2,14 +2,13 @@
 /**
  * Module dependencies.
  */
-var app = express();
-
 var express = require('express')
   , routes = require('./routes')
-  , user = require('./routes/user')
   , http = require('http')
   , path = require('path')
-  , io = require('socket.io').listen(app);
+  , app = express()
+  , server = require('http').createServer(app)
+  , io = require('socket.io').listen(server);
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -28,14 +27,26 @@ app.configure('development', function(){
 });
 
 
-app.get('/', require('./routes/spectator-connection'));
-app.get('/p1', require('./routes/p1-connection'));
-app.get('p2', require('./routes/p2-connection'));
+app.get('/', function(req, res)
+  {
+    res.render('index', {title:'Express'});
+  });
 
-app.get('/gameview', function(req, res) {
+io.sockets.on('connection', function(socket)
+{
+  setInterval(function()
+  {
+    socket.emit('sendDraw', {drawing:'draw'});
+  }, 1000);
+});
+
+// app.get('/p1', require('./routes/p1-connection'));
+// app.get('p2', require('./routes/p2-connection'));
+
+app.get('/gameview', function(req, res, io) {
   res.render('gameview');
 });
 
-http.createServer(app).listen(app.get('port'), function(){
+server.listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });

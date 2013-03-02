@@ -1,6 +1,4 @@
-var io = require('socket.io').listen(app);
-
-module.exports = function(req, res)
+module.exports = function(req, res, io)
 {
   io.sockets.on('connection', function(socket)
   {
