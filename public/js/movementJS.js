@@ -4,7 +4,8 @@
 			
 			document.onkeydown = keydown;
 			document.onkeyup = keyup;
-
+			var id = window.location.toString();
+			
 			function keydown(e)
 			{	
 				var key = window.event || e;
@@ -12,7 +13,7 @@
 				
  				if(keyCode == 38){
  					console.log("Pressed");
- 					socket.emit('movementUp', {data: true}, function(position)
+ 					socket.emit('movementUp', {data: true, player: id.charAt(id.length-1)}, function(position)
  						{	
  							console.log(position);
  						});
@@ -21,7 +22,7 @@
 
  				if(keyCode == 40){
  					console.log("Pressed");
- 					socket.emit('movementDown', {data: true}, function(position)
+ 					socket.emit('movementDown', {data: true, player:id.charAt(id.length-1)}, function(position)
  						{
  							console.log(position);
  						});
@@ -38,7 +39,7 @@
 				
  				if(keyCode == 38){
  					console.log("Released");
- 					socket.emit('releasedUp', {data: true}, function(position)
+ 					socket.emit('releasedUp', {data: true, player: id.charAt(id.length-1)}, function(position)
  						{	
  							console.log(position);
  						});
@@ -47,10 +48,11 @@
 
  				if(keyCode == 40){
  					console.log("Released");
- 					socket.emit('releasedDown', {data: true}, function(position)
+ 					socket.emit('releasedDown', {data: true, player: id.charAt(id.length-1)}, function(position)
  						{
  							console.log(position);
  						});
 
  				
  				}
+ 			}

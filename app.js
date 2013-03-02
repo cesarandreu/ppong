@@ -42,6 +42,10 @@ app.get('/p1', function(req, res)
 {
   res.render('movement', {title:'Movement'});
 });
+app.get('/p2', function(req, res)
+{
+  res.render('movement', {title:'Movement2'});
+});
 io.sockets.on('connection', function(socket)
 {
   setInterval(function()
