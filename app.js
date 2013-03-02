@@ -35,19 +35,23 @@ app.get('/p1', function(req, res)
 {
   res.render('movement', {title:'Movement'});
 });
+app.get('/p2', function(req, res)
+{
+  res.render('movement', {title:'Movement2'});
+});
 io.sockets.on('connection', function(socket)
 {
   setInterval(function()
   {
     socket.emit('sendDraw', {drawing:'draw'});
   }, 1000);
-  socket.on('pressedUp', function(data, func)
+  socket.on('movementUp', function(data, func)
     {
-      func("PressedUp");
+      func(data.player);
     });
-  socket.on('pressedDown', function(data, func)
+  socket.on('movementDown', function(data, func)
   {
-      func("PressedDown");
+      func(data.player);
   });
   socket.on('releasedUp', function(data, func)
   {
