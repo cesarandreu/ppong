@@ -41,14 +41,24 @@ io.sockets.on('connection', function(socket)
   {
     socket.emit('sendDraw', {drawing:'draw'});
   }, 1000);
-  socket.on('movementUp', function(data, func)
+  socket.on('pressedUp', function(data, func)
     {
-      func("Moved Up");
+      func("PressedUp");
     });
-  socket.on('movementDown', function(data, func)
+  socket.on('pressedDown', function(data, func)
   {
-      func("Moved Down");
+      func("PressedDown");
   });
+  socket.on('releasedUp', function(data, func)
+  {
+      func("ReleasedUp");
+  });
+  socket.on('releaseDown', function(data, func)
+  {
+      func("ReleasedDown");
+  });
+ 
+
 });
 
 // app.get('/p1', require('./routes/p1-connection'));

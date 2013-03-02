@@ -12,7 +12,7 @@
 				
  				if(keyCode == 38){
  					console.log("Pressed");
- 					socket.emit('movementUp', {data: true}, function(position)
+ 					socket.emit('pressedUp', {data: true}, function(position)
  						{	
  							console.log(position);
  						});
@@ -21,7 +21,7 @@
 
  				if(keyCode == 40){
  					console.log("Pressed");
- 					socket.emit('movementDown', {data: true}, function(position)
+ 					socket.emit('pressedDown', {data: true}, function(position)
  						{
  							console.log(position);
  						});
