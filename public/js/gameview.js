@@ -1,11 +1,16 @@
 $(document).ready(function() {
 
+    //Socket connection
+    var socket = io.connect('http://localhost');
+
+    socket.on('sendDraw', function(data) {
+        drawLoop(data);
+    });
 
     //One part handles getting the game's values.
     //Another part handles drawing the game's values.
 
     //Canvas context
-    //Pure JS, because I'm cool like that.
     var canvas = $('#game');
     var ctx = document.getElementById('game').getContext('2d');
 
@@ -20,7 +25,7 @@ $(document).ready(function() {
     var ballRadius = 10;
 
     //Dummy object with the type of information I'll receive from the server.
-    var variableObject = {ballPositionX: 200, ballPositionY: 200, paddle1: 100, paddle2: 100, score1: 0, score2: 10};
+    //var variableObject = {ballPositionX: 200, ballPositionY: 200, paddle1: 100, paddle2: 100, score1: 0, score2: 10};
 
 
     //Draws the game's frame
@@ -47,14 +52,14 @@ $(document).ready(function() {
 
     }
 
-    function methodName (arguments) {
-      // body...
+
+    function drawLoop (gameVariables) {
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        drawGameFrame(canvasWidth, canvasHeight);
+        drawGamePaddles(gameVariables);  
+        drawGameBall(gameVariables);    
     }
 
-
-//        drawGameFrame(canvasWidth, canvasHeight);
-//        drawGamePaddles(variableObject);  
-//        drawGameBall(variableObject);    
     
 
 

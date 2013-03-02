@@ -7,8 +7,11 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
   , app = express()
+  , gameLoop = require('gameLogic')
   , server = require('http').createServer(app)
   , io = require('socket.io').listen(server);
+
+var ball = 100;
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -36,8 +39,9 @@ io.sockets.on('connection', function(socket)
 {
   setInterval(function()
   {
-    socket.emit('sendDraw', {drawing:'draw'});
-  }, 1000);
+    socket.emit('sendDraw', {ballPositionX: 200, ballPositionY: 200, paddle1: 100, paddle2: 100, score1: 0, score2: 10});
+  }, 20);
+
 });
 
 // app.get('/p1', require('./routes/p1-connection'));
