@@ -32,6 +32,10 @@ app.get('/', require('./routes/spectator-connection'));
 app.get('/p1', require('./routes/p1-connection'));
 app.get('p2', require('./routes/p2-connection'));
 
+app.get('/gameview', function(req, res) {
+  res.render('gameview');
+});
+
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
