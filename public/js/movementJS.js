@@ -1,33 +1,36 @@
-	document.write("Hello");
+document.write("Hello");
 
 			var socket = io.connect('http://localhost');
+			var id = window.location.toString();
+			var	buttonFlag = true;
 			
 			document.onkeydown = keydown;
 			document.onkeyup = keyup;
-			var id = window.location.toString();
+			
 			
 			function keydown(e)
 			{	
 				var key = window.event || e;
 				var keyCode = key.charCode || e.keyCode;
 				
- 				if(keyCode == 38){
+ 				if(keyCode == 38 && buttonFlag){
  					console.log("Pressed");
  					socket.emit('movementUp', {data: true, player: id.charAt(id.length-1)}, function(position)
  						{	
  							console.log(position);
  						});
+ 					buttonFlag = false;
  				
  				}
 
- 				if(keyCode == 40){
+ 				if(keyCode == 40 && buttonFlag){
  					console.log("Pressed");
  					socket.emit('movementDown', {data: true, player:id.charAt(id.length-1)}, function(position)
  						{
  							console.log(position);
  						});
 
- 				
+ 					buttonFlag = false;
  				}
 
 
@@ -43,7 +46,7 @@
  						{	
  							console.log(position);
  						});
- 				
+ 					buttonFlag = true;
  				}
 
  				if(keyCode == 40){
@@ -52,6 +55,7 @@
  						{
  							console.log(position);
  						});
+ 					buttonFlag = true;
 
  				
  				}
