@@ -2,14 +2,14 @@
 /**
  * Module dependencies.
  */
+var app = express();
 
 var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
   , http = require('http')
-  , path = require('path');
-
-var app = express();
+  , path = require('path')
+  , io = require('socket.io').listen(app);
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -27,8 +27,10 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-app.get('/', routes.index);
-app.get('/users', user.list);
+
+app.get('/', require('./routes/spectator-connection'));
+app.get('/p1', require('./routes/p1-connection'));
+app.get('p2', require('./routes/p2-connection'));
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
