@@ -20,10 +20,10 @@ var paddleUpdate = function(deltaTime) {
             this.velocity = 0;
             break;
         case controlState_upKey:
-            this.velocityY = -1;
+            this.velocityY = 1;
             break;
         case controlState_downKey:
-            this.velocityY = 1;
+            this.velocityY = -1;
             break;
     }
 
@@ -69,5 +69,13 @@ function input(controlState, pID){
 
 };
 
+function gameStatus () {
+
+    return paddle1;
+
+};
+
 exports.gameUpdate = gameUpdate;
 exports.input = input;
+exports.gameStatus = gameStatus;
+

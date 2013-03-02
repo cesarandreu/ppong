@@ -51,28 +51,34 @@ io.sockets.on('connection', function(socket)
   setInterval(function()
   {
     gameLogic.gameUpdate(0.017);
-    socket.emit('sendDraw', {ballPositionX: 100, ballPositionY: 200, paddle1: 100, paddle2: 100, score1: 0, score2: 10});
+    
+    var paddleValue = gameLogic.gameStatus();
+    console.log('Paddle value: ' + paddleValue.positionY);
+    socket.emit('sendDraw', {ballPositionX: 100, ballPositionY: 200, paddle1: paddleValue.positionY, paddle2: 100, score1: 0, score2: 10});
   }, 17);
+
+
 
   socket.on('movementUp', function(data, func)
     {
-
-      gameLogic.input( controlState_upKey, data.playerID);
+      //console.log('Movement up.');
+      //console.log('Player: ' + data.player);
+      gameLogic.input( controlState_upKey, data.player);
     });
   socket.on('movementDown', function(data, func)
   {
 
-    gameLogic.input( controlState_downKey, data.playerID);
+    gameLogic.input( controlState_downKey, data.player);
   });  
   socket.on('releasedUp', function(data, func)
   {
 
-    gameLogic.input( controlState_noKey, data.playerID);
+    gameLogic.input( controlState_noKey, data.player);
   });
   socket.on('releasedDown', function(data, func)
   {
 
-    gameLogic.input( controlState_noKey, data.playerID);
+    gameLogic.input( controlState_noKey, data.player);
   });
 });
 
