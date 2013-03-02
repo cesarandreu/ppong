@@ -50,11 +50,11 @@ io.sockets.on('connection', function(socket)
 {
   setInterval(function()
   {
+
     gameLogic.gameUpdate(0.017);
-    
-    var paddleValue = gameLogic.gameStatus();
-    console.log('Paddle value: ' + paddleValue.positionY);
-    socket.emit('sendDraw', {ballPositionX: 100, ballPositionY: 200, paddle1: paddleValue.positionY, paddle2: 100, score1: 0, score2: 10});
+    var gameValue = gameLogic.gameStatus();
+    //console.log('Paddle value: ' + paddleValue.positionY);
+    socket.emit('sendDraw', {ballPositionX: gameValue.ballX, ballPositionY: gameValue.ballY, paddle1: gameValue.p1Y, paddle2: gameValue.p2Y, score1: 0, score2: 10});
   }, 17);
 
 
@@ -63,15 +63,17 @@ io.sockets.on('connection', function(socket)
     {
       //console.log('Movement up.');
       //console.log('Player: ' + data.player);
+
+      console.log('Pressed up button!');
       gameLogic.input( controlState_upKey, data.player);
     });
   socket.on('movementDown', function(data, func)
   {
-
     gameLogic.input( controlState_downKey, data.player);
   });  
   socket.on('releasedUp', function(data, func)
   {
+    console.log('Released up button!');
 
     gameLogic.input( controlState_noKey, data.player);
   });
