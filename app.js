@@ -42,11 +42,6 @@ io.sockets.on('connection', function(socket)
 {
   setInterval(function()
   {
-<<<<<<< HEAD
-    socket.emit('sendDraw', {ballPositionX: 200, ballPositionY: 200, paddle1: 100, paddle2: 100, score1: 0, score2: 10});
-  }, 20);
-
-=======
     socket.emit('sendDraw', {drawing:'draw'});
   }, 1000);
   socket.on('movementUp', function(data, func)
@@ -57,7 +52,6 @@ io.sockets.on('connection', function(socket)
   {
       func("Moved Down");
   });
->>>>>>> b3e2c05a2fd3eac532c3687a88d286d97465bf6e
 });
 
 // app.get('/p1', require('./routes/p1-connection'));
