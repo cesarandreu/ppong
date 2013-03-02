@@ -16,7 +16,7 @@ var gameVariables = {
 };
 
 function GameObject() {
-    this.positionX = gameVariables.borderOffset;
+    this.positionX = 0;
     this.positionY = gameVariables.canvasHeight/2;
     this.velocityX = 0;
     this.velocityY = 0;
@@ -28,13 +28,21 @@ var ball = new GameObject();
 var paddle1 = new GameObject();
 var paddle2 = new GameObject();
 
+paddle1.positionX = gameVariables.borderOffset;
+paddle2.positionX = gameVariables.canvasWidth - gameVariables.borderOffset;
+
 ball.positionX = gameVariables.initialBallX;
 ball.positionY = gameVariables.initialBallY;
 ball.velocityX = gameVariables.paddleAbsoluteVelocity * gameVariables.ballVelocityModifier;
 ball.velocityY = gameVariables.paddleAbsoluteVelocity * gameVariables.ballVelocityModifier;
 ball.radius = gameVariables.ballRadius;
 
-
+function intersectRect(r1, r2) {
+  return !(r2.left > r1.right || 
+           r2.right < r1.left || 
+           r2.top > r1.bottom ||
+           r2.bottom < r1.top);
+};
 
 ball.update = function(deltaTime) {
     this.positionX += (this.velocityX * deltaTime);
@@ -75,60 +83,64 @@ ball.update = function(deltaTime) {
 
         if(Math.random() * 100 > 50){
             this.velocityX *= -1;
-        }
+        };
         if(Math.random() * 100 > 50){
             this.velocityY *= -1;
-        }  
-    }
+        };
+    };
     
     //Paddle collision 
+    if(intersectRect( paddle2, this )){
+        this.velocityX *= -1;
+        this.positionX = paddle2.positionX-gameVariables.paddleWidth;
+    };
+
     if(intersectRect( paddle1, this )){
         this.velocityX *= -1;
-        this.positionX += 5;
-    }
-    if(intersectRect( paddle2, this)){
-        this.velocityX *= -1;
-        this.position -= 5;
-    }
+        this.positionX = paddle1.positionX+gameVariables.paddleWidth;
+    };
+
+    
+
     
 };
 
-function intersectRect(r1, r2) {
-  return !(r2.left > r1.right || 
-           r2.right < r1.left || 
-           r2.top > r1.bottom ||
-           r2.bottom < r1.top);
-}
+
 
 var paddleUpdate = function(deltaTime) {
     switch(this.state) {
         case controlState_noKey:
             this.velocityY = 0;
-            console.log('No key');
+            //console.log('No key');
             break;
         case controlState_upKey:
             this.velocityY = gameVariables.paddleAbsoluteVelocity;
-            console.log('Up key');
+            //console.log('Up key');
             break;
         case controlState_downKey:
             this.velocityY = -1 * gameVariables.paddleAbsoluteVelocity;
-            console.log('Down key');
+            //console.log('Down key');
             break;
     }
 
     this.positionY += (-1 * (this.velocityY * deltaTime));
 
-    if(this.positionY > (gameVariables.canvasBot - (gameVariables.paddleHeight/2))){
-        this.positionY = gameVariables.canvasTop - (gameVariables.paddleHeight/2);
+    if(this.positionY > (gameVariables.canvasBottom - (gameVariables.paddleHeight/2))){
+        this.positionY = gameVariables.canvasBottom - (gameVariables.paddleHeight/2);
     }
     if(this.positionY < (gameVariables.canvasTop + (gameVariables.paddleHeight/2))){
         this.positionY = gameVariables.paddleHeight/2;
     }
 
-    this.top = this.positionY - 50;
-    this.bottom = this.positionY + 50;
-    this.left = this.positionX - 15;
-    this.right = this.positionY - 15;
+    paddle1.top = paddle1.positionY - (gameVariables.paddleHeight/2);
+    paddle1.bottom = paddle1.positionY + (gameVariables.paddleHeight/2);
+    paddle1.left = paddle1.positionX - (gameVariables.paddleWidth/2);
+    paddle1.right = paddle1.positionX + (gameVariables.paddleWidth/2);    
+
+    paddle2.top = paddle2.positionY - (gameVariables.paddleHeight/2);
+    paddle2.bottom = paddle2.positionY + (gameVariables.paddleHeight/2);
+    paddle2.left = paddle2.positionX - (gameVariables.paddleWidth/2);
+    paddle2.right = paddle2.positionX + (gameVariables.paddleWidth/2);   
 
 };
 
