@@ -1,13 +1,4 @@
-<html>
-	<head>
-
-		<title>PlayerPong</title>
-			<script src="/socket.io/socket.io.js"></script>
-
-			<script>			
-
-
-			document.write("Hello");
+	document.write("Hello");
 
 			var socket = io.connect('http://localhost');
 			
@@ -63,12 +54,3 @@
 
  				
  				}
-
-
-			}				
-			</script>
-	</head>
-
-	
-	</body>
-</html>
