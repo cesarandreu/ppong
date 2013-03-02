@@ -1,16 +1,9 @@
-<html>
-	<head>
 
-		<title>PlayerPong</title>
-			<script src="/socket.io/socket.io.js"></script>
-
-			<script>			
-
+			document.write("Hello");
 
 			var socket = io.connect('http://localhost');
 			
 			document.onkeydown = keypress;
-
 
 			function keypress(e)
 			{	
@@ -18,19 +11,19 @@
 				var keyCode = key.charCode || e.keyCode;
 
  				if(keyCode == 38){
- 					alert("KeyUp");
+ 					
  					socket.emit('movementUp', {data: true}, function(position)
  						{
- 							document.write(position);
+ 							console.log(position);
  						});
  				
  				}
 
  				if(keyCode == 40){
- 					alert("KeyDown");
+ 					
  					socket.emit('movementDown', {data: true}, function(position)
  						{
- 							document.write(position);
+ 							console.log(position);
  						});
 
  				
@@ -38,9 +31,3 @@
 
 
 			}			
-			</script>
-	</head>
-
-	
-	</body>
-</html>

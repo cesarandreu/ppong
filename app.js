@@ -31,13 +31,24 @@ app.get('/', function(req, res)
   {
     res.render('index', {title:'Express'});
   });
-
+app.get('/p1', function(req, res)
+{
+  res.render('movement', {title:'Movement'});
+});
 io.sockets.on('connection', function(socket)
 {
   setInterval(function()
   {
     socket.emit('sendDraw', {drawing:'draw'});
   }, 1000);
+  socket.on('movementUp', function(data, func)
+    {
+      func("Moved Up");
+    });
+  socket.on('movementDown', function(data, func)
+  {
+      func("Moved Down");
+  });
 });
 
 // app.get('/p1', require('./routes/p1-connection'));
