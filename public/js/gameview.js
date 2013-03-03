@@ -1,7 +1,9 @@
 $(document).ready(function() {
 
     //Socket connection
-    var socket = io.connect('http://localhost');
+    var host = "http://"+window.location.hostname;
+    var socket = io.connect(host);
+    //var socket = io.connect('http://localhost');
 
     socket.on('sendDraw', function(data) {
         drawLoop(data);

@@ -1,6 +1,7 @@
 document.write("Hello");
-
-			var socket = io.connect('http://169.254.36.197:3000');
+			
+			var host = "http://"+window.location.hostname;
+			var socket = io.connect(host);
 			var id = window.location.toString();
 			var	buttonFlag = true;
 			
