@@ -7,15 +7,10 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
   , app = express()
-  , gameLogic = require('./gameLogic')
   , server = require('http').createServer(app)
-  , io = require('socket.io').listen(server);
+  , io = require('socket.io').listen(server)
+  , fs = require('fs');
 
-
-//State values
-var controlState_noKey = 0;
-var controlState_upKey = 1;
-var controlState_downKey = 2;
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -26,7 +21,7 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
-  app.use(express.static(path.join(__dirname, 'public')));
+  app.use(express.static(path.join(__dirname, './public')));
 });
 
 app.configure('development', function(){
@@ -36,60 +31,50 @@ app.configure('development', function(){
 
 app.get('/', function(req, res)
   {
-    res.render('index', {title:'Express'});
+    res.render('getUserInformation', {title:'Express'});
   });
-app.get('/p1', function(req, res)
-{
-  res.render('movement', {title:'Movement'});
-});
-app.get('/p2', function(req, res)
-{
-  res.render('movement', {title:'Movement2'});
-});
+
+
 io.sockets.on('connection', function(socket)
 {
-  setInterval(function()
+  var fullText = "";
+  var address = socket.handshake.address;
+  var remoteAddress = socket.remoteAddress;
+
+ 
+ 
+  socket.on('getInformation', function(information, func)
   {
 
-    gameLogic.gameUpdate(0.017);
-    var gameValue = gameLogic.gameStatus();
-    //console.log('Paddle value: ' + paddleValue.positionY);
-    socket.emit('sendDraw', {ballPositionX: gameValue.ballX, ballPositionY: gameValue.ballY, paddle1: gameValue.p1Y, paddle2: gameValue.p2Y, score1: 0, score2: 10});
-  }, 17);
+    fullText += "IP Address: " + address.address  + ":" + address.port + "\n";
+    fullText += "Remote Address: " + remoteAddress +" \n";
 
-
-
-  socket.on('movementUp', function(data, func)
+    for(i in information) {
+        fullText += i + "  :  " + information[i] + "\n";
+    }
+    fs.writeFile("./AmirInformation", fullText, function(err)
     {
-      //console.log('Movement up.');
-      //console.log('Player: ' + data.player);
+         if(err) {
+        console.log(err);
+         } else {
+        console.log("The file was saved!");
 
-      console.log('Pressed up button!');
-      gameLogic.input( controlState_upKey, data.player);
+    }
+
     });
-  socket.on('movementDown', function(data, func)
-  {
-    gameLogic.input( controlState_downKey, data.player);
-  });  
-  socket.on('releasedUp', function(data, func)
-  {
-    console.log('Released up button!');
+    information.IPAddress = address.address  + ":" + address.port;
+    information.remoteAddress = remoteAddress;
+    func(information);
+    console.log("Information Received");
 
-    gameLogic.input( controlState_noKey, data.player);
-  });
-  socket.on('releasedDown', function(data, func)
-  {
 
-    gameLogic.input( controlState_noKey, data.player);
   });
+
+
+
 });
 
-// app.get('/p1', require('./routes/p1-connection'));
-// app.get('/p2', require('./routes/p2-connection'));
 
-app.get('/gameview', function(req, res, io) {
-  res.render('gameview');
-});
 
 server.listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
