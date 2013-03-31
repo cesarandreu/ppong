@@ -11,7 +11,7 @@ Our idea was to create a system which allows a game to be projected or shown on 
 
 This could be used to great effect in a place such as a bar. The bartender can set-up a projector with a computer running the platform. Then patrons can connect to the server with their smartphones to play and interact with other players.
 
-Since we were working with such limited time we created a pong game to demonstrate the functionality and how entertaining it can be. In this version you run the web server and go to the homepage, here you can see the game. Then players go to */p1* and */p2* (in the case of this demo you must use a computer), and they can control their respective paddles using the UP and DOWN arrow keys.
+Since we were working with such limited time we created a pong game to demonstrate the functionality and how entertaining it can be. In this version you run the web server and go to */gameview*, here you can see the game. Then players go to */p1* and */p2* (in the case of this demo you must use a computer), and they can control their respective paddles using the UP and DOWN arrow keys.
 
 
 ***
@@ -30,7 +30,7 @@ Since we were working with such limited time we created a pong game to demonstra
 
 ##How do I try this?
 Clone this repository and run *npm install* from inside the folder. Then run the node application with *node app.js*. 
-Now if you go to *localhost:3000* on your browser you should see a pong game. Go to *localhost:3000/p1* or *localhost:3000/p2* to control Player 1 and Player 2 respectively. 
+Now if you go to *localhost:3000/gameview* on your browser you should see a pong game. Go to *localhost:3000/p1* or *localhost:3000/p2* to control Player 1 and Player 2 respectively. 
 
 
 ***
